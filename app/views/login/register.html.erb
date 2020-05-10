@@ -1,0 +1,71 @@
+  <div class="container  col-md-12 col-sm-12 ">
+    <div class="row">
+	    <br>
+	    <br>
+   	</div>
+		<%if @user.errors.any?  %>
+			<div class="row center_pan" >
+				<div style="width: 400px;">
+					<div class="col bg-danger text-center" >
+						<ul>
+							<% @user.errors.full_messages.each do |message| %>
+							  <li class="danger_message"><%= message %></li>
+							<% end %>
+						</ul>
+					</div>
+				</div>
+			</div>
+		  <br>
+		<%end%>
+		<%= form_for @user ,  url: '/new_user', method: :post do |f| %>
+			<div class="row center_pan">
+				<div class="centerpane">
+					<div class="text-center">
+						<h1>Sign up</h1>
+					</div>
+					<div class="form-group">
+						<%= f.label :role_name, 'Select user type' , class: "custom_label col-md-12 text-center"  %>
+						<div class="col-md-12">
+							<%= f.select :role_name , options_for_select(user_type),{:include_blank => true},{class: "form-control" , placeholder: "Select user"}%>
+						</div>
+					</div>
+					<div class="form-group">
+						<%= f.label :fname, 'Name' , class: "custom_label col-md-12 text-center"  %>
+						<div class="col-md-12">
+							<%= f.text_field :fname , {class: "form-control side_div_left" ,  placeholder: "First Name"}%>
+							<%= f.text_field :lname , {class: "form-control side_div_right" ,  placeholder: "Last Name"}%>
+						</div>
+					</div>
+					<div class="form-group">
+						<%= f.label :email, 'Email' , class: "custom_label col-md-12 text-center"  %>
+						<div class="col-md-12">
+							<%= f.email_field :email , {class: "form-control" ,  placeholder: "sam@gmail.com"}%>
+						</div>
+					</div>
+					<div class="form-group">
+						<%= f.label :email_confirmation, 'Email Confirmation' , class: "custom_label col-md-12 text-center"  %>
+						<div class="col-md-12">
+							<%= f.email_field :email_confirmation , {class: "form-control" ,  placeholder: "sam@gmail.com"}%>
+						</div>
+					</div>
+					<div class="form-group">
+						<%= f.label :password, 'Password' , class: "custom_label col-md-12 text-center"  %>
+						<div class="col-md-12">
+							<%= f.password_field :password , {class: "form-control" ,  placeholder: "Password"}%>
+						</div>
+					</div>
+					<div class="form-group">
+						<%= f.label :password_confirmation, 'Password Confirmation' , class: "custom_label col-md-12 text-center"  %>
+						<div class="col-md-12">
+							<%= f.password_field :password_confirmation , {class: "form-control" ,  placeholder: "Password Confirmation"}%>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-12 text-right">
+							<%= f.submit "Register", class: "btn btn-primary button_style"%>      
+						</div>
+					</div>
+				</div>
+			</div>
+		<%end%>
+	</div>

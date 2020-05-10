@@ -1,0 +1,48 @@
+@import "bootstrap/scss/bootstrap";
+.nav_bar_custom{
+  height: 72px;
+  background-color: #f7f7f7;
+  border: 1px solid #d4d4d4;
+}
+.center_pan{
+  display: flex;
+  justify-content: center;
+}
+.custom_label{
+  font-size: 1rem;
+  color: #212549;
+  font-weight: 600;
+}
+.side_div_left{
+  width: 49%;
+  float: left
+}
+.side_div_right{
+  width: 49%;
+  float: right;
+}
+
+.button_style{
+  font-weight:800;
+  font-size :1rem;
+}
+.success_message{
+  color: #ffffff;
+  font-weight: 600;
+}
+.danger_message{
+  color: #ffffff !important;
+  font-weight: 600;
+}
+.parent_container{
+  width: 100%;
+  background-color: #f7f7f7;
+  height: calc(100vh)
+}
+.centerpane{
+  width: 400px;
+  border: 1px solid #d4d4d4;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  padding: 15px;
+}

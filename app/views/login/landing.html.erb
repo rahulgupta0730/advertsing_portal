@@ -1,0 +1,49 @@
+  <div class="container  col-md-12 col-sm-12">
+    <div class="row">
+      <br>
+      <br>
+    </div>
+  <% if !flash[:success].blank?  %>
+    <div class="row center_pan" >
+      <div style="width: 400px;">
+        <div class="col bg-success text-center">
+          <p class="success_message"><%=flash[:success]%></p>
+        </div>
+      </div>
+    </div>
+  <%end%>
+  <%if !flash[:error].blank?  %>
+    <div class="row center_pan" >
+      <div style="width: 400px;">
+        <div class="col bg-danger text-center" >
+          <p class="success_message"><%=flash[:error]%></p>
+        </div>
+      </div>
+    </div>
+  <%end%>
+    <%= form_with(url: "/check_account", method: "post" ,html: { autocomplete: "off" }) do %>
+      <div class="row center_pan">
+        <div class="centerpane">
+          <div class="text-center">
+            <h1>Welcome Back!</h1>
+          </div>
+          <div class="form-group">
+            <div class="col-md-12">
+              <%= email_field_tag(:email ,"",{class: "form-control" , placeholder: "Email..."})%>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-12">
+              <%= password_field_tag(:password,"",{class: "form-control" , placeholder: "Password..."} ) %>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-12 text-right">
+              <%= submit_tag "Login", class: "btn btn-primary button_style"%>      
+            </div>
+          </div>
+        </div>
+      </div>
+    <%end%>
+  </div>  
+
