@@ -25,7 +25,7 @@ development:
   <<: *default
   host: localhost
   username: postgres
-  password: macro129
+  password: rahul0730
   database: advertising_portal_development
 
   # The specified database role being used to connect to postgres.
@@ -62,7 +62,7 @@ test:
   <<: *default
   host: localhost
   username: postgres
-  password: macro129
+  password: rahul0730
   database: advertising_portal_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
