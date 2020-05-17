@@ -2,7 +2,6 @@ class BindingsController < ApplicationController
 	layout "authorize"
 	before_action :set_bindings, only: [:index, :biding_end]
 
-
   def index
   end
 
