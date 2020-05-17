@@ -10,10 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_09_081329) do
+ActiveRecord::Schema.define(version: 2020_05_16_065688) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bidings", force: :cascade do |t|
+    t.integer "bid_by"
+    t.decimal "bid_amounts", default: [], array: true
+    t.decimal "latest_bid"
+    t.bigint "slot_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["slot_id"], name: "index_bidings_on_slot_id"
+  end
+
+  create_table "slots", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.decimal "base_price"
+    t.string "status"
+    t.integer "agent_id"
+    t.integer "organization_id"
+    t.integer "provider_id"
+    t.decimal "final_price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "fname"
@@ -26,4 +49,5 @@ ActiveRecord::Schema.define(version: 2020_05_09_081329) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "bidings", "slots"
 end

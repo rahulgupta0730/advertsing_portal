@@ -1,0 +1,2 @@
+module EmailQueueHelper
+end

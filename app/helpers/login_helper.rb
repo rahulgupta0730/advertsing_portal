@@ -1,7 +1,7 @@
 module LoginHelper
   def user_type
     users = [
-      ["Organisation","organisation"] ,
+      ["Organization","organization"] ,
       ["Provider","provider"] ,
       ["Agent","agent"]
     ]

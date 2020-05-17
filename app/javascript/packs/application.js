@@ -5,11 +5,16 @@
 
 
 import "bootstrap"
+import "bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css"
+import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.min.css'
 // require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require("jquery")
+require("packs/custom")
+require("jquery-ui")
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference

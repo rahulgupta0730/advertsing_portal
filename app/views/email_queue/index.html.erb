@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <br>
+    <br>
+  </div>
+  <div class="row row_pane" >
+    <div class="col-md-12">
+      <% @count = 0 %>
+      <% ActionMailer::Base.deliveries.reverse.each do |email| %>
+      	<br><br>
+      	<p><b>Sr.No: </b><%= @count += 1 %></p>
+      	<p><b>Date: </b><%=email["Date"]%></p>
+      	<p class="mail_sender"><b>From: </b><%=email["From"]%></p>
+      	<p class="mail_receiver"><b>To: </b><%=email["To"]%></p>
+      	<p class="mail_receiver"><b>Bcc: </b><%=email["Bcc"]%></p>
+      	<p class="mail_subject"><b>Subject: </b><%=email["Subject"]%></p>
+      	<div class="email-well"><%=raw email.body %></div><hr>
+      <% end %>
+    </div>
+  </div>
+</div>
+

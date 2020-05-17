@@ -1,0 +1,38 @@
+<%if slots.blank? %>
+  <br>
+  <h3 style="text-align: center;">No Slot</h3>
+<%else%>
+  <table class="table" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Base Price</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% slots.each do |slot|%>
+        <tr>
+          <td><%=date_time_format(slot.start_time)%></td>
+          <td><%=date_time_format(slot.end_time)%></td>
+          <td><%=slot.base_price%></td>
+          <td>
+            <%if slot.status == "sold"%>
+              <p class="alert alert-success" role="alert"><strong>Sold</strong></p>
+            <%else%>
+              <%=slot.status.titlecase%>
+            <%end%>
+          </td>
+          <td>
+            <a href="slots/view/<%=slot.id%>">View</a>&nbsp;&nbsp;
+            <%if slot.status == "biding_start" %>
+              <a href="bindings/index/<%=slot.id%>">Binding Details</a>
+            <%end%>
+          </td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+<%end%>

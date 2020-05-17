@@ -1,0 +1,106 @@
+<section id="tabs" class="project_tab">
+	<div class="container">
+	  <div class="row">
+	    <br>
+	    <br>
+	  </div>
+	  <div class="row row_pane">
+	  	<div class="col-md-6">
+	  		<div class="card" style="width: 100%">
+	  		  <div class="view overlay">
+	  		    <a href="#!">
+	  		      <div class="mask rgba-white-slight"></div>
+	  		    </a>
+	  		  </div>
+	  		  <div class="card-body">
+	  		    <h3 class="card-title"> <%=date_time_format(@slot.start_time)%> - <%=date_time_format(@slot.end_time)%></h3>
+	  		    <p class="card-text">Below table is for the organization who bided for this particular time slot</p>
+	  		  </div>
+	  		</div>
+	  	</div>
+	  	<div class="col-md-6">
+	  		<div class="card" style="width: 100%">
+	  		  <div class="view overlay">
+	  		    <a href="#!">
+	  		      <div class="mask rgba-white-slight"></div>
+	  		    </a>
+	  		  </div>
+	  		  <div class="card-body">
+	  		    <h2 class="card-title alert alert-success" role="alert" style="text-align: center;"><%= highest_bid(@slot , session[:user_id]) %></h2>
+	  		    <p class="card-text" style="text-align: center;">Highest bid</p>
+	  		  </div>
+	  		</div>
+	  	</div>
+		 </div>
+	  <div class="row">
+	  	<br>
+	  	<br>
+	  </div>
+	  <%if !flash[:error].blank?  %>
+	    <div class="row center_pan" >
+	      <div style="width: 400px;">
+	        <div class="col bg-danger text-center" >
+	          <p class="success_message"><%=flash[:error]%></p>
+	        </div>
+	      </div>
+	    </div>
+	  <%end%>
+	  <div class="row row_pane">
+	  	<table class="table" cellspacing="0">
+	  	  <thead>
+	  	    <tr>
+	  	      <th>Organization Bidder</th>
+	  	      <th>Latest Amount</th>
+	  	      <th>Previous Bids</th>
+	  	    </tr>
+	  	  </thead>
+	  	  <tbody>
+	  	  	<% @bidings.each do |biding|%>
+	  	  	  <tr>
+	  	  	    <td><%=biding.organization.name%></td>
+	  	  	    <td><%=biding.latest_bid%></td>
+	  	  	    <td><%=biding.bid_amounts.join(", ")%></td>
+	  	  	  </tr>
+	  	  	<%end%>
+	  	  </tbody>
+	  	</table>
+	  </div>
+	  <div class="row">
+	  	<br>
+	  	<br>
+	  </div>
+  	<% if policy(Biding).biding_end?%>
+  	  <div class="row row_pane">
+        <div class="col-md-12 text-right">
+          <a href="javascript:history.back()" class="btn btn-primary back_button_style">Back</a>&nbsp;&nbsp;
+          <%= form_with(url: "/bindings/biding_end",  html: { style: "display:inline" } , method: "post" ) do %>
+            <%= hidden_field_tag(:slot_id, @slot.id) %>
+            <%= submit_tag("End biding", class: "btn btn-primary button_style", :onclick => "return ConfirmEnd()") %>
+          <% end %>
+        </div>
+  	  </div>
+  	<%else%>
+  	  <div class="row row_pane">
+        <div class="col-md-12 text-right">
+          <a href="javascript:history.back()" class="btn btn-primary back_button_style">Back</a>&nbsp;
+          <%if role_name(session[:user_id]) == "Organization" && !highest_bid(@slot , session[:user_id]).include?("by you") %>
+          	<a href="/slots/view/<%=@slot.id%>" class="btn btn-primary button_style" style="color: #ffffff">Bid Amount</a>
+          <%end%>
+        </div>
+  	  </div>
+  	<%end%>
+  	<div class="row">
+  		<br>
+  		<br>
+  	</div>
+	</div>
+</section>
+<script type="text/javascript">
+	function ConfirmEnd(){
+	  var x = confirm("If you end the biding the solt will be sold to highest bid organization. Are you to end this binding?");
+	  if (x)
+	    return true;
+	  else
+	    return false;
+	}
+</script>

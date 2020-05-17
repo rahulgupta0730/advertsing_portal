@@ -1,18 +1,47 @@
-<div class="container">
-  <div class="form-group">
-    <div class="col-md-12">
-      <%= text_field_tag :start_date,'Start Date', {class: "form-control" ,  placeholder: "Select start date"}%>
+<section id="tabs" class="project_tab">
+  <div class="container">
+    <div class="row">
+      <br>
+      <br>
+    </div>
+    <%if !flash[:error].blank?  %>
+      <div class="row center_pan" >
+        <div style="width: 400px;">
+          <div class="col bg-danger text-center" >
+            <p class="success_message"><%=flash[:error]%></p>
+          </div>
+        </div>
+      </div>
+    <%end%>
+    <%if !flash[:success].blank?  %>
+      <div class="row center_pan" >
+        <div style="width: 400px;">
+          <div class="col bg-success text-center" >
+            <p class="success_message"><%=flash[:success]%></p>
+          </div>
+        </div>
+      </div>
+    <%end%>
+    <div class="row row_pane">
+      <div class="col-md-12">
+        <nav>
+          <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><%=tab_one_heading(session[:user_id])%></a>
+            <% if role_name(session[:user_id]) != "Provider"%>
+              <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><%=tab_two_heading(session[:user_id])%></a>
+            <%end%>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <%= render 'table', :slots => @user.slot_available %>
+          </div>
+          <% if role_name(session[:user_id]) != "Provider"%>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+              <%= render 'table', :slots => @user.user_specific %>
+          <%end%>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="form-group">
-    <div class="col-md-12">
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-md-12 text-right">
-    </div>
-  </div>
-
-</div>
+</section>

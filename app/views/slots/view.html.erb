@@ -1,0 +1,179 @@
+<div class="container">
+  <div class="row">
+    <br>
+    <br>
+  </div>
+  <%if @bid.errors.any?  %>
+    <div class="row" >
+      <div class="offset-md-4 col-md-4">
+        <div class="col bg-danger text-center" >
+          <ul>
+            <% @bid.errors.full_messages.each do |message| %>
+              <li class="danger_message"><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <br>
+  <%end%>
+  <div class="row_pane">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center">Slot Details</h1>
+        <br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="offset-md-1 col-md-3 text-right">
+            <%= label_tag :start_time, 'Start Time' , {class: 'custom_label'}%>
+          </div>
+          <div class="col-md-8">
+            <label class="custom_label"><%= date_time_format(@slot.start_time)%></label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <%= label_tag :end_time, 'End Time' , {class: 'custom_label'}%>
+          </div>
+          <div class="col-md-8">
+            <label class="custom_label"><%= date_time_format(@slot.end_time)%></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <br>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="offset-md-1 col-md-3 text-right">
+            <%= label_tag :base_price, 'Base Price' , {class: 'custom_label'}%>
+          </div>
+          <div class="col-md-8">
+            <label class="custom_label"><%= @slot.base_price %></label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <%= label_tag :Status, 'Status' , {class: 'custom_label'}%>
+          </div>
+          <div class="col-md-8">
+            <%if @slot.status == "sold"%>
+              <label class="alert alert-success" role="alert" ><strong><%= @slot.status.titlecase %></strong></label>
+            <%else%>
+              <label class="custom_label"><%= @slot.status.titlecase %></label>
+            <%end%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <br>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="offset-md-1 col-md-3 text-right">
+            <%= label_tag :agent, 'Agent' , {class: 'custom_label'}%>
+          </div>
+          <div class="col-md-8">
+            <label class="custom_label"><%= name(@slot.agent_id)%></label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <%= label_tag :highest_biding, 'Highest Binding' , {class: 'custom_label'}%>
+          </div>
+          <div class="col-md-8">
+            <%if @slot.status == "sold"%>
+              <label class=" alert alert-success" role="alert" ><strong><%= @slot.final_price %></strong></label>
+            <%else%>
+              <label class="custom_label"> <%= highest_bid(@slot , session[:user_id]) %></label>
+            <%end%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <br>
+    </div>
+    <%if !@slot.organization_id.blank? %>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="offset-md-1 col-md-3 text-right">
+              <%= label_tag :organization_name, 'Organization name' , {class: 'custom_label'}%>
+            </div>
+            <div class="col-md-8">
+              <label class="custom_label"><%= name(@slot.organization_id)%></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    <%end%>
+    <% if policy(@slot).agent_pre_booked?  && @slot.agent_id.blank?%>
+      <div class="row">
+        <div class="offset-md-6 col-md-6">
+          <div class="row">
+            <div class="col-md-11 text-right">
+              <a href="javascript:history.back()" class="btn btn-primary back_button_style">Back</a>&nbsp;&nbsp;
+              <%= form_with(url: "/slots/agent_pre_booked",  html: { style: "display:inline" } , method: "post" ) do %>
+                <%= hidden_field_tag(:slot_id, @slot.id) %>
+                <%= submit_tag("Booked Slots", class: "btn btn-primary button_style")  %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <%elsif policy(@slot).binding_amount? && !highest_bid(@slot , session[:user_id]).include?("by you")%>
+      <%= form_for @bid ,  url: '/slots/binding_amount', html: { autocomplete: "off" , style: "display:inline"} ,  method: :post do |f| %>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-4 text-right">
+                <%= f.label :latest_bid, 'Enter Bid Amount' , {class: 'custom_label'}%>
+              </div>
+              <div class="col-md-8">
+               <%= f.number_field :latest_bid , {class: "form-control" }%>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="offset-md-6 col-md-6">
+            <div class="row">
+              <div class="col-md-11 text-right">
+                <a href="javascript:history.back()" class="btn btn-primary back_button_style">Back</a>&nbsp;&nbsp;
+                <% if policy(@slot).binding_amount?%>
+                  <%= hidden_field_tag(:slot_id, @slot.id) %>
+                  <%= f.submit "Bid Amount", class: "btn btn-primary button_style"%>      
+                <%end%>
+              </div>
+            </div>
+          </div>
+        </div>
+      <%end%>
+    <%else%>
+      <div class="row">
+        <div class="offset-md-6 col-md-6">
+          <div class="row">
+            <div class="col-md-11 text-right">
+              <a href="javascript:history.back()" class="btn btn-primary back_button_style">Back</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <%end%>
+  </div>
+</div>
+
