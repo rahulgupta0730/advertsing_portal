@@ -5,9 +5,7 @@
 
 
 import "bootstrap"
-import "bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css"
 import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.min.css'
 // require("@rails/ujs").start()
 // require("turbolinks").start()
 require("@rails/activestorage").start()
