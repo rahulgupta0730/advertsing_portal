@@ -9,7 +9,7 @@ class Biding < ApplicationRecord
 
 	def bid_price_check
 		if !self.latest_bid.blank?
-			if self.slot.base_price > self.latest_bid
+			if self.slot.base_price >= self.latest_bid
 				errors.add(:base, "Please enter the amount greater then base base price")
 			end
 			max_bid = Biding.where(:slot_id => self.slot_id).order("latest_bid DESC").first
